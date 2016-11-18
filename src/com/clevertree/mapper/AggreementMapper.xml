@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clevertree.dao.AggreementMapper">
+  <resultMap id="BaseResultMap" type="com.clevertree.entity.Aggreement">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="mem_id" jdbcType="VARCHAR" property="memId" />
+    <result column="class" jdbcType="VARCHAR" property="clazz" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="duration" jdbcType="INTEGER" property="duration" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mem_id, `class`, `status`, start_time, duration
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from aggreement
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from aggreement
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.clevertree.entity.Aggreement">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into aggreement (id, mem_id, `class`, 
+      `status`, start_time, duration
+      )
+    values (#{id,jdbcType=INTEGER}, #{memId,jdbcType=VARCHAR}, #{clazz,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{duration,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.clevertree.entity.Aggreement">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into aggreement
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="memId != null">
+        mem_id,
+      </if>
+      <if test="clazz != null">
+        `class`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="memId != null">
+        #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="clazz != null">
+        #{clazz,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.clevertree.entity.Aggreement">
+    update aggreement
+    <set>
+      <if test="memId != null">
+        mem_id = #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="clazz != null">
+        `class` = #{clazz,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.clevertree.entity.Aggreement">
+    update aggreement
+    set mem_id = #{memId,jdbcType=VARCHAR},
+      `class` = #{clazz,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      duration = #{duration,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
